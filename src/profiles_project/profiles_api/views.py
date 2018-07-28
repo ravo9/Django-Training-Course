@@ -4,8 +4,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 # The 'status' object contain a list of all HTTP status codes.
 from rest_framework import status
+from rest_framework import TokenAuthentication
 from . import serializers
 from . import models
+from . import permissions
 
 # Create your views here.
 
@@ -111,3 +113,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
     # It defines how to retrieve objects from our database.
     queryset = models.UserProfile.objects.all()
+
+    # Authentication stuff - the strange bracket is a tuple.
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.UpdateOwnProfile,)
