@@ -5,6 +5,7 @@ from rest_framework.response import Response
 # The 'status' object contain a list of all HTTP status codes.
 from rest_framework import status
 from . import serializers
+from . import models
 
 # Create your views here.
 
@@ -102,3 +103,11 @@ class HelloViewSet(viewsets.ViewSet):
         """Handles removing an object."""
 
         return Response({'http_method': 'DELETE'})
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Handles creating, reading and updating profiles."""
+
+    serializer_class = serializers.UserProfileSerializer
+
+    # It defines how to retrieve objects from our database.
+    queryset = models.UserProfile.objects.all()
