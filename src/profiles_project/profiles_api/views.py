@@ -6,6 +6,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
+
+# Required by login APIView.
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
+
 from . import serializers
 from . import models
 from . import permissions
@@ -107,6 +112,7 @@ class HelloViewSet(viewsets.ViewSet):
 
         return Response({'http_method': 'DELETE'})
 
+
 class UserProfileViewSet(viewsets.ModelViewSet):
     """Handles creating, reading and updating profiles."""
 
@@ -123,3 +129,16 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     # Here we define which fields we allow the user to filter by.
     search_fields = ('name', 'email',)
+
+
+class LoginViewSet(viewsets.ViewSet):
+    """Checks email, password - and returns an Auth Token."""
+
+    serializer_class = AuthTokenSerializer
+
+    # POST
+    # We are calling the APIView through the ViewSet.
+    def create(self, request):
+        """Use the ObtainAuthToken APIView to validate and create a token."""
+
+        return ObtainAuthToken().post(request)

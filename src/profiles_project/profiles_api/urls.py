@@ -8,6 +8,7 @@ router.register('hello-viewset', views.HelloViewSet, base_name='hello-viewset')
 # When we register a model viewset, we don't hae to provide a base nameself.
 # It's gonna be retrieved from our model.
 router.register('profile', views.UserProfileViewSet)
+router.register('login', views.LoginViewSet, base_name='login')
 
 urlpatterns = [
     # APIView
