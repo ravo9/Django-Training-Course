@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 # The 'status' object contain a list of all HTTP status codes.
 from rest_framework import status
-from rest_framework import TokenAuthentication
+from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
 from . import serializers
 from . import models
 from . import permissions
@@ -117,3 +118,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     # Authentication stuff - the strange bracket is a tuple.
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.UpdateOwnProfile,)
+
+    # Searching feature stuff
+    filter_backends = (filters.SearchFilter,)
+    # Here we define which fields we allow the user to filter by.
+    search_fields = ('name', 'email',)
