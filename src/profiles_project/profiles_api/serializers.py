@@ -37,3 +37,17 @@ class UserProfileSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+class ProfileFeedItemSerializer(serializers.ModelSerializer):
+    """A serializer for Profile Feed Items."""
+
+    class Meta:
+        model = models.ProfileFeedItem
+        # ID of the object - Primary Key. User Profile - Foreign Key
+        # in database.
+        fields = ('id', 'user_profile', 'status_text', 'created_on')
+        # We don't want to allow anyone to change 'user profile'.
+        # It should be set autmatically as the ID of our logged in user (who
+        # wants to add a feed item).
+        extra_kwargs = {'user_profile': {'read_only': True}}
